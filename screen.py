@@ -32,10 +32,10 @@ def render(net, vehicles, sim_time, output_dir):
 
     ax.set_aspect("equal")
     ax.axis("off")
-    ax.set_title(f"t = {int(sim_time)}s - {len(vehicles)} vehicles")
 
     path = os.path.join(output_dir, f"snapshot_t{int(sim_time)}.png")
-    plt.savefig(path, dpi=150, bbox_inches="tight")
+    # pad_inches=0 removes any extra white border around the image
+    plt.savefig(path, dpi=150, bbox_inches="tight", pad_inches=0)
     plt.close()
     print(f"Screenshot saved: {path}")
 
@@ -105,8 +105,6 @@ def main():
     net = sumolib.net.readNet(net_file_abs)
 
     # 3. Start SUMO
-    # We pass -c to keep time options, and our absolute paths as CLI arguments
-    # (CLI arguments override those found in the .sumocfg)
     cmd = ["sumo", "-c", args.config] + sumo_cmd_args
     traci.start(cmd)
     
